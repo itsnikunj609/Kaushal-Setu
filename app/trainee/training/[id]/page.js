@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-const page = () => {
+const Page = () => {
     const [training, setTraining] = useState(null)
     const params = useParams();
     const id = params.id
@@ -72,4 +72,4 @@ const page = () => {
     );
 }
 
-export default page
+export default Page

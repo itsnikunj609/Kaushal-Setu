@@ -129,7 +129,7 @@ if (result.success) {
           </form>
 
           <div className="text-center mt-6 text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a
               href="/register"
               className="text-[#0B5ED7] font-semibold hover:underline"
