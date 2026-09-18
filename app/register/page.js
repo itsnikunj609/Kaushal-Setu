@@ -65,7 +65,7 @@ const RegisterPage = () => {
                     </h1>
 
                     <p className="text-gray-500 mt-2">
-                        Join Capacity Connect and start your learning journey
+                        Join Prithvi Setu and start your learning journey
                     </p>
                 </div>
 

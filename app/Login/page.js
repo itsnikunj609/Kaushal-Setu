@@ -78,7 +78,7 @@ if (result.success) {
             </h2>
 
             <p className="text-gray-500 mt-2">
-              Sign in to access Capacity Connect
+              Sign in to access Prithvi setu
             </p>
           </div>
 
