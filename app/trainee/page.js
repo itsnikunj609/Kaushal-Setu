@@ -31,12 +31,19 @@ const Trainee = async () => {
     if (!(user.role === "trainee")) {
         return Response.json({ message: "please login to your respective section" })
     }
+    const enrollcollection = await db.collection("enrollment")
 
+    const trainings = await enrollcollection.find({ traineeid: id.toString() }).toArray()
+    const trainingcollection = await db.collection("training")
+    const alltrainings = await trainingcollection.find({ status: "active" }).toArray()
 
+    const enrollids = trainings.map((enrollment) => {
+        return enrollment.trainingid
+    })
 
-
-
-
+    const recommendedtraining = alltrainings.filter((training) => {
+        return !enrollids.includes(training._id.toString())
+    })
     return (
         <main className="min-h-screen bg-[#F5F7FA]">
 
@@ -46,7 +53,7 @@ const Trainee = async () => {
 
                     <div>
                         <h1 className="text-2xl font-bold">
-                          kaushal Setu
+                            kaushal Setu
                         </h1>
                         <p className="text-sm text-gray-300">
                             Trainee Portal
@@ -89,7 +96,7 @@ const Trainee = async () => {
                             Enrolled Trainings
                         </p>
                         <h3 className="text-3xl font-bold text-[#0B5ED7] mt-2">
-                            3
+                            {trainings.length}
                         </h3>
                     </div>
 
@@ -130,66 +137,46 @@ const Trainee = async () => {
 
 
                         {/* Training 1 */}
-                        <div className="border rounded-lg p-5 mb-4">
+                        {recommendedtraining.map((training, index) => {
+                            return <> <div key={index} className="border rounded-lg p-5 mb-4">
 
-                            <div className="flex justify-between">
+                                <div className="flex justify-between">
 
-                                <div>
-                                    <h4 className="font-bold text-lg text-[#0B1F3A]">
-                                        Python for Data Analysis
-                                    </h4>
+                                    <div>
+                                        <h4 className="font-bold text-lg text-[#0B1F3A]">
+                                            {training.title}
+                                        </h4>
 
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Beginner • 6 Weeks
-                                    </p>
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            {training.level} • {training.duration}
+                                        </p>
+                                    </div>
+
+                                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs h-fit">
+                                        Recommended
+                                    </span>
+
                                 </div>
 
-                                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs h-fit">
-                                    Recommended
-                                </span>
+                                <p className="text-gray-600 text-sm mt-4">
+                                    {training.description}
+                                </p>
 
-                            </div>
+                                <Link href={"/trainee/training"}>
 
-                            <p className="text-gray-600 text-sm mt-4">
-                                Learn Python, data analysis, visualization and
-                                basic analytics.
-                            </p>
-
-                          <Link href={"/trainee/training"}>
-
-                                <button className="mt-4 bg-[#0B5ED7] text-white px-4 py-2 rounded-md font-semibold">
-                                    View Training
-                                </button>
-                            </Link>
+                                    <button className="mt-4 bg-[#0B5ED7] text-white px-4 py-2 rounded-md font-semibold">
+                                        View Training
+                                    </button>
+                                </Link>
 
 
-                        </div>
+                            </div></>
+
+                        })}
 
 
-                        {/* Training 2 */}
-                        <div className="border rounded-lg p-5">
-
-                            <h4 className="font-bold text-lg text-[#0B1F3A]">
-                                Web Development Fundamentals
-                            </h4>
-
-                            <p className="text-sm text-gray-500 mt-1">
-                                Beginner • 8 Weeks
-                            </p>
-
-                            <p className="text-gray-600 text-sm mt-4">
-                                Learn HTML, CSS, JavaScript and modern web
-                                development fundamentals.
-                            </p>
-                            <Link href={"/trainee/training"}>
-
-                                <button className="mt-4 bg-[#0B5ED7] text-white px-4 py-2 rounded-md font-semibold">
-                                    View Training
-                                </button>
-                            </Link>
 
 
-                        </div>
 
                     </div>
 
@@ -265,17 +252,18 @@ const Trainee = async () => {
                     </h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Link href={"/trainee/training"}>
+                            <button className="border rounded-md p-4 text-left hover:bg-gray-50">
+                                <p className="font-semibold text-[#0B1F3A]">
+                                    Find Training
+                                </p>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Explore available training programs
+                                </p>
+                            </button>
+                        </Link>
 
-                        <button className="border rounded-md p-4 text-left hover:bg-gray-50">
-                            <p className="font-semibold text-[#0B1F3A]">
-                                Find Training
-                            </p>
-                            <p className="text-sm text-gray-500 mt-1">
-                                Explore available training programs
-                            </p>
-                        </button>
-
-                        <button className="border rounded-md p-4 text-left hover:bg-gray-50">
+                        <Link href={"/trainee/skills"}><button className="border rounded-md p-4 text-left hover:bg-gray-50">
                             <p className="font-semibold text-[#0B1F3A]">
                                 Update Skills
                             </p>
@@ -283,15 +271,19 @@ const Trainee = async () => {
                                 Manage your current skills
                             </p>
                         </button>
+                        </Link>
 
-                        <button className="border rounded-md p-4 text-left hover:bg-gray-50">
+                        <Link href={"/trainee"}>    <button className="border rounded-md p-4 text-left hover:bg-gray-50">
                             <p className="font-semibold text-[#0B1F3A]">
                                 View Progress
                             </p>
                             <p className="text-sm text-gray-500 mt-1">
                                 Track your learning progress
                             </p>
-                        </button>
+                        </button></Link>
+
+
+
 
                     </div>
 

@@ -5,12 +5,26 @@ import { useEffect,useState } from "react";
 import Link from "next/link";
 
 const TrainerDashboard = () => {
+   const[totaltrainings,setTotaltrainings]=useState(0)
+   const[totaltrainees,setTotaltrainees]=useState(0)
+    useEffect(()=>{
+        const getstats=async()=>{
+            const response=await fetch("/api4/stats");
+            const result=await response.json();
+            console.log(result)
+            setTotaltrainings(result.totaltrainings)
+            setTotaltrainees(result.totaltrainees)
+        }
+        getstats()
+    },[])
+
     const[trainings,setTrainings]=useState([])
 
     useEffect(()=>{
         const gettrainings= async()=>{
             let response=await fetch("/api3/trainer/trainings")
             let result=await response.json()
+          
             setTrainings(result)
         }
         gettrainings()
@@ -25,18 +39,12 @@ const TrainerDashboard = () => {
             {/* Navbar */}
             <nav className="bg-white border-b px-8 py-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-blue-700">
-                    Capacity Connect
+                    Kaushal Setu
                 </h1>
 
-                <div className="flex gap-6 items-center">
-                    <button className="text-gray-700 hover:text-blue-600">
-                        Dashboard
-                    </button>
+                <h1  className="text-2xl font-bold text-blue-700"></h1>
 
-                    <button className="text-gray-700 hover:text-blue-600">
-                        Profile
-                    </button>
-                </div>
+                
             </nav>
 
 
@@ -64,7 +72,7 @@ const TrainerDashboard = () => {
                         </p>
 
                         <h3 className="text-4xl font-bold text-gray-800 mt-3">
-                            3
+                          {totaltrainings}
                         </h3>
                     </div>
 
@@ -75,7 +83,7 @@ const TrainerDashboard = () => {
                         </p>
 
                         <h3 className="text-4xl font-bold text-gray-800 mt-3">
-                            35
+                           {totaltrainees}
                         </h3>
                     </div>
 

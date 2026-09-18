@@ -4,7 +4,7 @@ import { redirect } from "next/dist/server/api-utils";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
+const LoginPage = () => { 
   const router=useRouter();
   const [form, setForm] = useState({
     email: "",

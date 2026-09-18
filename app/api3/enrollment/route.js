@@ -28,7 +28,9 @@ export async function POST(request) {
 
         const user = await collection.insertOne({
             trainingid: body.trainingid,
-            traineeid: id
+            traineeid: id,
+            username:decoded.username,
+            email:decoded.email
         })
 
     return Response.json({ message: "enrollment successfull" })

@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
+    const router=useRouter();
     const [form, setForm] = useState({
         fullname: "",
         username: "",
@@ -41,6 +43,7 @@ const RegisterPage = () => {
             })
             .then((result) => {
                 setForm({ fullname: "", username: "", email: "", password: "", confirmpass: "" })
+                router.push("/Login")
                 console.log("API RESULT:", result);
                 alert(result.message);
             })

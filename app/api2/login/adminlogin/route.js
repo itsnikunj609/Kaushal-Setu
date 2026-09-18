@@ -13,7 +13,7 @@ export async function POST(request) {
     const user = await collection.findOne({ email: body.email });
     if (!user) {
 
-        return Response.json({ message: "user not registered" })
+        return Response.json({ message: "Admin not registered" })
     }
     const ispasswordcorrect = await bcrypt.compare(body.password, user.password)
 
