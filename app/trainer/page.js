@@ -39,7 +39,7 @@ const TrainerDashboard = () => {
             {/* Navbar */}
             <nav className="bg-white border-b px-8 py-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-blue-700">
-                    Kaushal Setu
+                    Prithvi Setu
                 </h1>
 
                 <h1  className="text-2xl font-bold text-blue-700"></h1>
